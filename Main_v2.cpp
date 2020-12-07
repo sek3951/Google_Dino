@@ -1,9 +1,13 @@
 //[C/C++ game] very simple google dinosaur. (by. BlockDMask)
 //2019.12.03 (v2.0)점수 추가, 충돌처리 추가.
-#include<stdio.h>
+#include<cstdio>
 #include<windows.h>
 #include<conio.h>
-#include<time.h>
+#include<ctime>
+#include<iostream>
+
+using namespace std;
+
 #define DINO_BOTTOM_Y 12
 #define TREE_BOTTOM_Y 20
 #define TREE_BOTTOM_X 45
@@ -12,7 +16,7 @@
 void SetConsoleView()
 {
 	system("mode con:cols=100 lines=25");
-	system("title Google Dinosaurs. By BlockDMask.");
+	system("Final Project - 10Team");
 }
 
 //커서의 위치를 x, y로 이동하는 함수
@@ -39,27 +43,27 @@ void DrawDino(int dinoY)
 {
 	GotoXY(0, dinoY);
 	static bool legFlag = true;
-	printf("        $$$$$$$ \n");
-	printf("       $$ $$$$$$\n");
-	printf("       $$$$$$$$$\n");
-	printf("$      $$$      \n");
-	printf("$$     $$$$$$$  \n");
-	printf("$$$   $$$$$     \n");
-	printf(" $$  $$$$$$$$$$ \n");
-	printf(" $$$$$$$$$$$    \n");
-	printf("  $$$$$$$$$$    \n");
-	printf("    $$$$$$$$    \n");
-	printf("     $$$$$$     \n");
+	cout << "        $$$$$$$ \n";
+	cout << "       $$ $$$$$$\n";
+	cout << "       $$$$$$$$$\n";
+	cout << "$      $$$      \n";
+	cout << "$$     $$$$$$$  \n";
+	cout << "$$$   $$$$$     \n";
+	cout << " $$  $$$$$$$$$$ \n";
+	cout << " $$$$$$$$$$$    \n";
+	cout << "  $$$$$$$$$$    \n";
+	cout << "    $$$$$$$$    \n";
+	cout << "     $$$$$$     \n";
 	if (legFlag)
 	{
-		printf("     $    $$$    \n");
-		printf("     $$          ");
+		cout << "     $    $$$    \n";
+		cout << "     $$          ";
 		legFlag = false;
 	}
 	else
 	{
-		printf("     $$$  $     \n");
-		printf("          $$    ");
+		cout << "     $$$  $     \n";
+		cout << "          $$    ";
 		legFlag = true;
 	}
 }
@@ -68,15 +72,15 @@ void DrawDino(int dinoY)
 void DrawTree(int treeX)
 {
 	GotoXY(treeX, TREE_BOTTOM_Y);
-	printf("$$$$");
+	cout << "$$$$";
 	GotoXY(treeX, TREE_BOTTOM_Y + 1);
-	printf(" $$ ");
+	cout << " $$ ";
 	GotoXY(treeX, TREE_BOTTOM_Y + 2);
-	printf(" $$ ");
+	cout << " $$ ";
 	GotoXY(treeX, TREE_BOTTOM_Y + 3);
-	printf(" $$ ");
+	cout << " $$ ";
 	GotoXY(treeX, TREE_BOTTOM_Y + 4);
-	printf(" $$ ");
+	cout << " $$ ";
 }
 
 //(v2.0) 충돌 했을때 게임오버 그려줌
@@ -86,15 +90,15 @@ void DrawGameOver(const int score)
 	int x = 18;
 	int y = 8;
 	GotoXY(x, y);
-	printf("===========================");
+	cout << "===========================";
 	GotoXY(x, y + 1);
-	printf("======G A M E O V E R======");
+	cout << "======G A M E O V E R======";
 	GotoXY(x, y + 2);	
-	printf("===========================");
+	cout << "===========================";
 	GotoXY(x, y + 5);
-	printf("SCORE : %d", score);
+	cout << "SCORE : "<< score;
 
-	printf("\n\n\n\n\n\n\n\n\n");
+	cout << "\n\n\n\n\n\n\n\n\n";
 	system("pause");
 }
 
@@ -104,7 +108,7 @@ bool isCollision(const int treeX, const int dinoY)
 	//트리의 X가 공룡의 몸체쪽에 있을때,
 	//공룡의 높이가 충분하지 않다면 충돌로 처리
 	GotoXY(0, 0);
-	printf("treeX : %d, dinoY : %d", treeX, dinoY); //이런식으로 적절한 X, Y를 찾습니다.
+	cout << "treeX : "<<treeX<<" dinoY : "<< dinoY; //이런식으로 적절한 X, Y를 찾습니다.
 	if (treeX <= 8 && treeX >= 4 &&
 		dinoY > 8)
 	{
@@ -190,7 +194,7 @@ int main()
 
 			//(v2.0) 점수출력을 1초마다 해주는것이 아니라 항상 출력해주면서, 1초가 지났을때 ++ 해줍니다.
 			GotoXY(22, 0);	//커서를 가운데 위쪽으로 옮긴다. 콘솔창이 cols=100이니까 2*x이므로 22정도 넣어줌
-			printf("Score : %d ", score);	//점수 출력해줌.
+			cout << "Score : "<< score;	//점수 출력해줌.
 		}
 
 		//(v2.0) 게임 오버 메뉴
