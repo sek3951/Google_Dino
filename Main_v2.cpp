@@ -5,117 +5,9 @@
 #include<conio.h>
 #include<ctime>
 #include<iostream>
+#include "common.h"
 
 using namespace std;
-
-#define DINO_BOTTOM_Y 12
-#define TREE_BOTTOM_Y 20
-#define TREE_BOTTOM_X 45
-
-//콘솔 창의 크기와 제목을 지정하는 함수
-void SetConsoleView()
-{
-	system("mode con:cols=100 lines=25");
-	system("Final Project - 10Team");
-}
-
-//커서의 위치를 x, y로 이동하는 함수
-void GotoXY(int x, int y)
-{
-	COORD Pos;
-	Pos.X = 2 * x;
-	Pos.Y = y;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
-}
-
-//키보드의 입력을 받고, 입력된 키의 값을 반환하는 함수
-int GetKeyDown()
-{
-	if (_kbhit() != 0)
-	{
-		return _getch();
-	}
-	return 0;
-}
-
-//공룡을 그리는 함수
-void DrawDino(int dinoY)
-{
-	GotoXY(0, dinoY);
-	static bool legFlag = true;
-	cout << "        $$$$$$$ \n";
-	cout << "       $$ $$$$$$\n";
-	cout << "       $$$$$$$$$\n";
-	cout << "$      $$$      \n";
-	cout << "$$     $$$$$$$  \n";
-	cout << "$$$   $$$$$     \n";
-	cout << " $$  $$$$$$$$$$ \n";
-	cout << " $$$$$$$$$$$    \n";
-	cout << "  $$$$$$$$$$    \n";
-	cout << "    $$$$$$$$    \n";
-	cout << "     $$$$$$     \n";
-	if (legFlag)
-	{
-		cout << "     $    $$$    \n";
-		cout << "     $$          ";
-		legFlag = false;
-	}
-	else
-	{
-		cout << "     $$$  $     \n";
-		cout << "          $$    ";
-		legFlag = true;
-	}
-}
-
-//나무를 그리는 함수
-void DrawTree(int treeX)
-{
-	GotoXY(treeX, TREE_BOTTOM_Y);
-	cout << "$$$$";
-	GotoXY(treeX, TREE_BOTTOM_Y + 1);
-	cout << " $$ ";
-	GotoXY(treeX, TREE_BOTTOM_Y + 2);
-	cout << " $$ ";
-	GotoXY(treeX, TREE_BOTTOM_Y + 3);
-	cout << " $$ ";
-	GotoXY(treeX, TREE_BOTTOM_Y + 4);
-	cout << " $$ ";
-}
-
-//(v2.0) 충돌 했을때 게임오버 그려줌
-void DrawGameOver(const int score)
-{
-	system("cls");
-	int x = 18;
-	int y = 8;
-	GotoXY(x, y);
-	cout << "===========================";
-	GotoXY(x, y + 1);
-	cout << "======G A M E O V E R======";
-	GotoXY(x, y + 2);	
-	cout << "===========================";
-	GotoXY(x, y + 5);
-	cout << "SCORE : "<< score;
-
-	cout << "\n\n\n\n\n\n\n\n\n";
-	system("pause");
-}
-
-//(v2.0) 충돌했으면 true, 아니면 false
-bool isCollision(const int treeX, const int dinoY)
-{
-	//트리의 X가 공룡의 몸체쪽에 있을때,
-	//공룡의 높이가 충분하지 않다면 충돌로 처리
-	GotoXY(0, 0);
-	cout << "treeX : "<<treeX<<" dinoY : "<< dinoY; //이런식으로 적절한 X, Y를 찾습니다.
-	if (treeX <= 8 && treeX >= 4 &&
-		dinoY > 8)
-	{
-		return true;
-	}
-	return false;
-}
 
 int main()
 {
@@ -127,10 +19,10 @@ int main()
 		bool isJumping = false;
 		bool isBottom = true;
 		const int gravity = 3;
-		
+
 		int dinoY = DINO_BOTTOM_Y;
 		int treeX = TREE_BOTTOM_X;
-		
+
 		int score = 0;
 		clock_t start, curr;	//점수 변수 초기화
 		start = clock();		//시작시간 초기화
@@ -138,7 +30,7 @@ int main()
 		while (true)	//한 판에 대한 루프
 		{
 			//(v2.0) 충돌체크 트리의 x값과 공룡의 y값으로 판단
-			if(isCollision(treeX, dinoY))
+			if (IsCollision(treeX, dinoY))
 				break;
 
 			//z키가 눌렸고, 바닥이 아닐때 점프
@@ -193,8 +85,8 @@ int main()
 			system("cls");	//clear
 
 			//(v2.0) 점수출력을 1초마다 해주는것이 아니라 항상 출력해주면서, 1초가 지났을때 ++ 해줍니다.
-			GotoXY(22, 0);	//커서를 가운데 위쪽으로 옮긴다. 콘솔창이 cols=100이니까 2*x이므로 22정도 넣어줌
-			cout << "Score : "<< score;	//점수 출력해줌.
+			GoToXY(22, 0);	//커서를 가운데 위쪽으로 옮긴다. 콘솔창이 cols=100이니까 2*x이므로 22정도 넣어줌
+			cout << "Score : " << score;	//점수 출력해줌.
 		}
 
 		//(v2.0) 게임 오버 메뉴
